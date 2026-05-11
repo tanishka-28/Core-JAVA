@@ -1,0 +1,223 @@
+import java.util.*;
+
+
+class StudentRecords extends Operations {
+    String Name;
+    int Age;
+    double marks;
+
+
+    StudentRecords(String Name, int Age, double marks) {
+        this.Name = Name;
+        this.Age = Age;
+        this.marks = marks;
+    }
+
+
+    public String toString() {
+        return Name + "|" + Age + "|" + marks + "|";
+    }
+}
+
+
+class Operations {
+    ArrayList<StudentRecords> sr = new ArrayList<StudentRecords>();
+
+
+    // addition of students records
+    void addRecords(String Name, int Age, double marks) {
+        sr.add(new StudentRecords(Name, Age, marks));
+        System.out.println(Name + "|" + Age + "|" + marks + "|" + "------>Added");
+    }
+
+
+    // display the records
+    void display() {
+        System.out.println("----Student Records----");
+        for (int i = 0; i < sr.size(); i++) {
+            System.out.println(i + "-->" + sr.get(i));
+        }
+    }
+
+
+    // delete records
+    void deleteRecords(int index) {
+        if (index >= 0 && index < sr.size()) {
+            System.out.println("Student Record ---> " + sr.get(index) + " ---->Deleted successfully!");
+            sr.remove(index);
+        } else {
+            System.out.println("Invalid index!");
+        }
+    }
+
+
+    // search records by name
+    void searchRecord(String n) {
+        boolean found = false;
+        for (int i = 0; i < sr.size(); i++) {
+            if (n.equalsIgnoreCase(sr.get(i).Name)) {
+                System.out.println("Record found: " + sr.get(i));
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Record not found");
+        }
+    }
+    // Save records to file
+void saveToFile() {
+    try {
+        BufferedWriter bw = new BufferedWriter(new FileWriter("studentdata.txt"));
+        for (StudentRecords s : sr) {
+            bw.write(s.Name + "," + s.Age + "," + s.marks);
+            bw.newLine();
+        }
+        bw.close();
+        System.out.println("Data saved successfully!");
+    } catch (Exception e) {
+        System.out.println("Error saving file!");
+    }
+}
+
+
+// Load records from file
+void loadFromFile() {
+    try {
+        BufferedReader br = new BufferedReader(new FileReader("studentdata.txt"));
+        String line;
+        sr.clear(); // clear old data before loading
+        while ((line = br.readLine()) != null) {
+            String[] data = line.split(",");
+            sr.add(new StudentRecords(
+                    data[0],
+                    Integer.parseInt(data[1]),
+                    Double.parseDouble(data[2])
+            ));
+        }
+        br.close();
+        System.out.println("Data loaded successfully!");
+    } catch (Exception e) {
+        System.out.println("File not found!");
+    }
+}
+
+
+// Update record
+void updateRecord(String name) {
+    boolean found = false;
+    Scanner sc = new Scanner(System.in);
+
+
+    for (int i = 0; i < sr.size(); i++) {
+        if (name.equalsIgnoreCase(sr.get(i).Name)) {
+            System.out.println("Enter new age:");
+            sr.get(i).Age = sc.nextInt();
+
+
+            System.out.println("Enter new marks:");
+            sr.get(i).marks = sc.nextDouble();
+
+
+            System.out.println("Record updated successfully!");
+            found = true;
+            break;
+        }
+    }
+
+
+    if (!found) {
+        System.out.println("Record not found!");
+    }
+}
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        Operations obj = new Operations(); 
+        int choice;
+
+
+        do {
+            System.out.println("=====WELCOME=====");
+           System.out.println("Menu\n1.Add Records\n2.Display Records\n3.Delete Record\n4.Search Records\n5.Update Record\n6.Save File\n7.Load File\n8.Exit");
+            System.out.println("Enter your choice :");
+            choice = s.nextInt();
+            s.nextLine();   // clear buffer
+
+
+            switch (choice) {
+                case 1: {
+                    System.out.println("Enter Name of student: ");
+                    String n = s.nextLine();
+
+
+                    System.out.println("Enter your Age :");
+                    int a = s.nextInt();
+
+
+                    System.out.println("Enter marks :");
+                    double m = s.nextDouble();
+                    s.nextLine();
+
+
+                    obj.addRecords(n, a, m);
+                    break;
+                }
+
+
+                case 2: {
+                    obj.display();
+                    break;
+                }
+
+
+                case 3: {
+                    System.out.println("Enter index number to delete record: ");
+                    int index = s.nextInt();
+                    s.nextLine();
+                    obj.deleteRecords(index);
+                    break;
+                }
+
+
+                case 4: {
+                    System.out.println("Enter name for Searching :");
+                    String Name = s.nextLine();
+                    obj.searchRecord(Name);
+                    break;
+                }
+
+
+                case 5: {
+    System.out.println("Enter name to update:");
+    String name = s.nextLine();
+    obj.updateRecord(name);
+    break;
+}
+
+
+case 6: {
+    obj.saveToFile();
+    break;
+}
+
+
+case 7: {
+    obj.loadFromFile();
+    break;
+}
+
+
+case 8: {
+    System.out.println("ThankYou for Visiting!");
+    break;
+}
+
+
+        
+    }} while (choice != 8);  
+}
+}
