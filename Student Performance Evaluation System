@@ -1,0 +1,82 @@
+Student Performance Evaluation System: Create a Student class with attributes like studentID, name, and marks. Write methods to:
+● Set and get student information. 
+● Calculate and display the average marks.
+● Determine if the student has passed or failed based on a passing threshold (e.g., 50%). Use Class, objects and Encapsulation
+
+//class 
+public class student {
+ 
+    //data members or attributes
+    private String Name;
+    private String Stud_id;
+    private double [] Marks;// array declaration
+    private double average;
+    //setter method to set value , sort of like a constructor
+    public void setStud_id(String id)
+    {
+        Stud_id=id;
+    }
+    public void setName(String n)
+    {
+        Name=n;
+    }
+    public void setMarks(double[] m)//array setting 
+    {
+        Marks=m;
+    }
+    // getter method used to return the value 
+    public String getStud_id()
+    {
+        return Stud_id;
+    }
+    public String getName()
+    {
+        return Name;
+    }
+    public double[] getMarks()
+    {
+        return Marks;
+    }
+    //average calculation
+    public double avg()
+    {
+        double sum=0;
+        for(int i=0; i<Marks.length; i++)
+        {
+            sum+=Marks[i];
+        }
+      average=sum/Marks.length;
+        return average;
+    }
+    //determining the status
+    public String result()
+    {
+        if(average >= 50)
+        {
+            return "Passed";
+        }
+        else {
+            return "Failed";
+        }
+    }
+    public void display()
+    {
+        System.out.println("Name:" + Name);
+        System.out.println("Stud_id:" + Stud_id);
+        System.out.println("Average:" + avg());
+        System.out.println("Result:" + result());
+        
+    }
+
+// main function 
+   public static void main(String args[]) {
+       
+       student s = new student();
+       s.setStud_id("B24CE1094");
+       s.setName("Tanishka");
+       double[] m= { 87, 88, 97, 98};
+       s.setMarks(m);
+       s.display();
+       
+}
+}
