@@ -1,0 +1,154 @@
+import java.util.*;
+//exception classes
+class booknotfound extends Exception {
+	public booknotfound(String message)
+	{
+		super(message);
+	}
+}
+class bookissued extends Exception {
+	public bookissued(String message)
+	{
+		super(message);
+	}
+}
+class invalidreturnD extends Exception {
+	public invalidreturnD(String message)
+	{
+		super(message);
+	}
+}
+//books class 
+class Book {
+	
+	String title;
+	int date;
+	boolean isCheckedout=false;
+	Book(String title , int date)
+	{
+		this.title=title;
+		this.date=date;
+	}
+	
+}
+//library class
+class library {
+	Book [] books = new Book[5];
+	//add books in the array 
+	void addbooks (String title, int date) throws booknotfound
+	{
+		for (int i=0;i<books.length ; i++)
+		{
+			
+			if(books[i] != null && books[i].title.equals(title))
+			{
+				System.out.println("book already added");
+				return;
+			}
+			if (books[i] ==null)
+			{
+			books[i] = new Book(title,date);
+			System.out.println("Book added successfully");
+			return;
+		}
+		}
+		
+	}
+	
+	// checkout 
+	void checkout(String title) throws bookissued, booknotfound
+	{
+		boolean found = false;
+		for(int i=0;i<books.length; i++)
+		{
+			if(books[i] != null && books[i].title.equals(title))
+			{
+			 found = true;
+			if(books[i].isCheckedout)
+			{	
+					throw new bookissued("Book not in the library, already taken");
+			}
+				else {
+					books[i].isCheckedout= true;
+					System.out.println("Book checked out successfully!");
+					return;
+				}
+				
+			}
+			
+		}
+		if(!found)
+		{
+			throw new booknotfound("book does not exist in library");
+		}
+		
+	}
+	// return date 
+	void returndate (String title, int retdate) throws invalidreturnD, booknotfound
+	{
+		for (int i=0;i<books.length; i++)
+		{
+		    if (retdate < 0)
+		    {
+		        throw new invalidreturnD("-1 : Enter a valid date!");
+		    }
+			if(books[i] !=null && books[i].title.equals(title))
+			{
+				if(retdate > books[i].date)
+				{
+					int late = retdate - books[i].date;
+					int fine = late*10;
+					System.out.println("Late return fine to be paid :" +fine);
+					throw new invalidreturnD("Late returning of books, must pay the fine");
+				}
+				else {
+					System.out.println("Book returned on time");
+				}
+				return;
+			}
+		}
+		throw new booknotfound("book does not exist in library");
+	}
+}
+
+//main class
+class Main {
+	public static void main (String [] args)
+	{
+		library library = new library();
+		try {
+		library.addbooks("java",5);
+		library.addbooks("dbms",5);
+		library.addbooks("se",5);
+		System.out.println();
+		
+	}
+	catch (booknotfound  e)
+	{
+		System.out.println("Exception Caught: " + e.getMessage());
+	}
+	try{
+		library.returndate("java",8);
+	}
+	catch ( invalidreturnD | booknotfound i)
+	{
+		System.out.println("Exception Caught: " + i.getMessage());
+	}
+	try{
+		library.checkout("java");
+		library.checkout("python");
+	}
+	catch (bookissued | booknotfound m)
+	{
+		System.out.println("Exception Caught: " + m.getMessage());
+	}
+	try {
+	    library.returndate("se",-1);
+	}
+	catch (invalidreturnD | booknotfound a)
+	{
+	    System.out.println("Exception Caught: " + a.getMessage());
+	}
+	}
+}
+
