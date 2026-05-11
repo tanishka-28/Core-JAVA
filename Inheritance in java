@@ -1,0 +1,78 @@
+Problem Statement : Vehicle renter system where different types of vehicles( foreg- car, bike, truck) inherit from base class vehicle class. This system allows user to rent vehicles based on type and calculate rental fees
+
+Program ;
+import java.util.Scanner;
+public class Vehicle{
+
+String vehicle_type;
+double rate;
+
+//constructor 
+Vehicle(String vehicle_type, double r)
+{
+	this.vehicle_type= vehicle_type;
+	this.rate = r;
+}
+public void rent(int days)
+{
+		double amount= days*(this.rate);
+		System.out.println("Total Rent Amount :"+amount);
+}
+//display 
+public void display( int days)
+{
+System.out.println("----TICKET----");
+System.out.println("Vehicle selected :" +this.vehicle_type);
+rent(days);
+}
+
+public static void main(String [] args)
+{
+	Scanner s = new Scanner(System.in);
+	int choice; 
+System.out.println("-----WELCOME TO RENTERS-----");
+System.out.println("What type of Vehicle would you like to rent  1.suv 2.xuv  3.bike: ");
+choice = s.nextInt();
+System.out.println("For how many days? :");
+int days = s.nextInt();
+
+switch (choice){
+    case 1: {
+	Vehicle suv = new suv();
+    suv.display(days);
+    break;
+    }
+    case 2: {
+    Vehicle xuv = new xuv();
+    xuv.display(days);
+        break;
+    }
+    case 3: {
+    Vehicle bike = new bike();
+    bike.display(days);
+    break;
+    }
+    default: {
+        System.out.println("Sorry we dont have that");
+    }
+}
+}
+}
+// child class 1
+class suv extends Vehicle {
+	suv (){
+		super("suv",1000);
+	}
+}
+//child class 2
+class xuv extends Vehicle {
+xuv () {
+	super("xuv",2500);
+}
+}
+//child class 3 
+class bike extends Vehicle {
+	bike() {
+		super("bike",550);
+	}
+}
