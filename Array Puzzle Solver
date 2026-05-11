@@ -1,0 +1,128 @@
+  Problem statement : 
+
+Array Puzzle Solver: Create a Java application that solves different types of puzzles using array manipulation. The system will include a variety of puzzles involving arrays, such as finding missing numbers,
+sorting and searching problems, finding the largest/smallest elements, sum pair puzzle and other logical tasks based on arrays
+
+import java.util.Arrays;//imported package 
+public class arraypuzzle{
+
+	
+	private int []Arr= {2,1,5,4};
+	private int missing, sum, total;
+	
+	// find missing number 
+	public int sumofn(int n)
+	{
+		int sum=0;
+		sum = (n*(n + 1))/2;
+		return sum;
+	}
+	public int sumofele()
+	{
+		int total=0;
+		for(int i=0; i<Arr.length ;i++)
+		{
+			total+=Arr[i];
+		}
+		
+		return total;
+	}
+	// sorting 
+	public static void sort(int[] Arr)
+	{
+	
+		Arrays.sort(Arr);//built in function for sorting 
+		
+	}
+	// search 
+	public void search (int [] Arr , int target)
+	{
+		int flag =0;
+		for(int i=0; i<Arr.length; i++)
+		{
+			if (Arr[i] == target)
+			{
+				
+				flag=1;
+				System.out.println("found element in the array");
+				break;
+			}
+			else {
+				flag=0;
+			}
+		}
+		if ( flag ==0){ System.out.println("element Not found");}
+		
+	}
+	//largest or smallest 
+	public int maxnum (int [] Arr)
+	{
+		int max = Arr[0];
+		for (int i=0; i<Arr.length ;i++)
+		{
+			if ( Arr[i] > max)
+			{
+				max = Arr[i];
+			}
+		}
+		return max;
+	}
+	//sum of pair equals to target
+	public void sumpair (int [] Arr, int target)
+	{
+		for(int i=0;i<Arr.length; i++)
+		{
+			for (int j=i+1; j<Arr.length; j++)
+			{
+				if (Arr[i] + Arr[j]== target)
+				{
+					System.out.println("Pair equal to target-"+ target+ ":"+"[" + Arr[i] + ","+ Arr[j] +"]");
+				}
+			}
+		}
+	}
+	//inserting an element in array at particular index
+	public int[] insert(int[] Arr, int num, int index)
+{
+    int[] newArr = new int[Arr.length + 1];
+
+    for(int i = 0; i < index; i++)
+       newArr[i] = Arr[i];
+    newArr[index] = num;
+    for(int i = index; i < Arr.length; i++)
+        newArr[i + 1] = Arr[i];
+
+    return newArr;
+}
+
+	//display function
+	public void display()
+	{
+		int n= Arr.length + 1;
+		int sum = sumofn(n);
+		int total= sumofele();
+		int missing = sum - total;
+		
+		
+		System.out.println("Total:" + total);
+		System.out.println("sum of n numbers :" +sum);
+		System.out.println("Missing element :" + missing);
+		System.out.println("Array: " + Arrays.toString(Arr));//to convert from human readable form
+		Arr = insert(Arr, 6, 1);
+        System.out.println("Array with new element :" + Arrays.toString(Arr));
+		sort(Arr);//function call
+		System.out.println("Sorted array: " + Arrays.toString(Arr));
+		search(Arr , 2);
+		
+		System.out.println("Largest number= " +maxnum(Arr));
+		sumpair(Arr,6);
+		
+	}
+	public static void main( String []args)
+	{
+		arraypuzzle a = new arraypuzzle();
+		a.display();
+	}
+}
+
+
