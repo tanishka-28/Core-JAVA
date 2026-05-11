@@ -1,0 +1,196 @@
+import java.util.Scanner;
+public class texttransform{
+	String text= "Hey, this is Tanishka";
+	
+// Uppercase 
+public String uppercase(String text)
+{
+    String result ="";
+    for(int i=0;i<text.length();i++)
+    {
+        char ch=text.charAt(i);
+        if(ch>='a' && ch<='z')// a-z : 97-122
+        {
+            ch=(char)(ch-32);// uppercase=lowercase-32
+        }
+          result+=ch;
+    }
+    return result;
+    //String newstring=text.toUpperCase();
+    //return newstring;
+}
+
+//Lowercase
+public String lowercase(String text)
+{
+    String result="";
+    for(int i=0;i<text.length();i++)
+    {
+        char ch=text.charAt(i);
+        if(ch>='A' && ch<='Z')// A-Z : 65-90
+        {
+            ch=(char)(ch+32);//lowercase=uppercase+32 
+        }
+        result+=ch;
+    }
+    return result;
+    //String newstring=text.toLowerCase();
+    //return newstring;
+}
+
+//comapring of strings 
+public void comparestrings(String text,Scanner s)
+{
+    System.out.println("Enter a string:");
+    String s2=s.nextLine();
+    if (text.length()!=s2.length())// length checking
+    {
+        System.out.println("String does not match");
+        return;
+    }
+    //now check character by character
+    for(int i=0;i<text.length();i++)
+    {
+        if(text.charAt(i)!=s2.charAt(i))
+        {
+             System.out.println("String does not match");
+             return;
+        }
+    }
+     System.out.println("String  match");
+     
+     /*if (text.equalsIgnoreCase(s2))
+{
+    System.out.println("String match");
+}
+else
+{
+    System.out.println("String does not match");
+}*/
+
+}
+
+
+//Searching of a substring
+public void searchsubstring(String text,Scanner s)
+{
+    System.out.println("Enter the sub string to be found:");
+    String substring = s.nextLine();
+    
+   int n= text.length();
+    int m= substring.length();
+    
+    if (m>n)
+    {
+        System.out.println("Substring not found");
+        return;
+    }
+    
+    for(int i=0;i<=n-m;i++)
+    {
+        int j;
+        for( j=0;j<m;j++)
+        {
+            if(text.charAt(i+j)!=substring.charAt(j))
+            {
+                break;
+            }
+        }
+        if(j==m)
+        {
+            System.out.println("Substring  found");
+            return;
+        }
+    }
+    System.out.println("Substring not found");
+    
+    //boolean result=text.contains(substring);
+    //System.out.println(result);
+}
+
+
+
+
+//replace substring 
+public void Replacestring(String text, Scanner s)
+{
+	System.out.println("Enter the Sub string you want to replace:");
+	String oldword = s.nextLine();
+	System.out.println("Enter the new string: ");
+	String newword = s.nextLine();
+	
+	String newtext = text.replace(oldword , newword);
+	System.out.println("New String :"+newtext);
+}
+
+
+//count words
+public int countwords(String text)
+{
+	int count=0;
+	for(int i=0; i<text.length(); i++){
+	if(text.charAt(i)!=' ' && ((i==0)|| text.charAt(i-1)==' '))	
+	{
+		count++;
+		return text.trim().split("\\s+").length;
+	}
+}
+	return count;
+}
+// Extract digits
+public static void extractDigits(String text) {
+String digits = "";
+for (int i = 0; i < text.length(); i++) {
+char ch = text.charAt(i);
+if (ch >= '0' && ch <= '9') {
+digits = digits + ch;
+}
+}
+if (digits.length() == 0)
+System.out.println("No digits found");
+else
+System.out.println("Digits : " + digits);
+// Built in
+// Character.isDigit();
+}
+
+//string reverse 
+public String reverseString(String text)
+{
+    String result = "";
+
+    for (int i = text.length() - 1; i >= 0; i--)
+    {
+        result += text.charAt(i);
+    }
+    return result;
+}
+
+
+//display function 
+public void display(Scanner s)
+{
+System.out.println("Replacement of substring:");
+Replacestring(text,s);
+System.out.println("Counting words in a string:");
+countwords(text);
+System.out.println("Word count:"+countwords(text));
+System.out.println("Uppercase:"+uppercase(text));
+System.out.println("Lowercase:"+lowercase(text));
+System.out.println("See if the user string matches system string:");
+comparestrings(text,s);
+searchsubstring(text,s);
+System.out.println("Extract digits:");
+extractDigits(text);
+System.out.println("Reversed string: " +reverseString(text));
+}
+	
+public static void main(String [] args)
+{
+	Scanner s = new Scanner(System.in);
+	texttransform t = new texttransform();
+	t.display(s);
+}
+}
+
+
