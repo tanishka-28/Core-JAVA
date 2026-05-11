@@ -1,0 +1,61 @@
+Food delivery system : 
+Create a java program to simulate an online delivery system where multiple delivery agents handle multiple orders simultaneously. Use multithreading to manage this task efficiently. 
+
+Program : 
+package ppl8;
+class Orders {
+   int order_id;
+   String fooditem;
+   Orders(int order_id, String fooditem) {
+       this.order_id = order_id;
+       this.fooditem = fooditem;
+   }
+}
+class DeliveryAgent extends Thread {
+   String name;
+   Orders[] orders;
+   DeliveryAgent(String name, Orders[] orders) {
+       this.name = name;
+       this.orders = orders;
+   }
+   public void run() {
+       for (Orders order : orders) {
+           System.out.println(order.order_id + " Picked up Order by " + name);
+           try {
+               Thread.sleep(1000);
+           } catch (InterruptedException e) {
+               System.out.println(e);
+           }
+           System.out.println("ID:"+order.order_id +" "+order.fooditem+ " -->Delivered by " + name);
+       }
+   }
+}
+public class Main {
+   public static void main(String[] args) {
+       Orders[] orders1 = {
+           new Orders(1, "Pizza")
+       };
+       Orders[] orders2 = {
+           new Orders(2, "Burger")
+       };
+       Orders[] orders3 = {
+           new Orders(3, "Meal")
+       };
+       Orders[] orders4 = {
+               new Orders(4, "Coffee")
+           };
+       Orders[] orders5 = {
+               new Orders(5, "Softdrinks")
+           };
+       DeliveryAgent agent1 = new DeliveryAgent("Ramesh", orders1);
+       DeliveryAgent agent2 = new DeliveryAgent("Suresh", orders2);
+       DeliveryAgent agent3 = new DeliveryAgent("Rahul", orders3);
+       DeliveryAgent agent4 = new DeliveryAgent("Rahul", orders4);
+       DeliveryAgent agent5 = new DeliveryAgent("Suresh", orders5);
+       agent1.start();
+       agent2.start();
+       agent3.start();
+       agent4.start();
+       agent5.start();
+   }
+}
