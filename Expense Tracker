@@ -1,0 +1,117 @@
+import java.util.*;
+import java.util.HashMap;
+class Expenses {
+	String category,date;
+	double amount;
+	
+	Expenses (String c, String d, double a)
+	{
+		this.category=c;
+		this.date=d;
+		this.amount=a;
+	}
+	public String toString()
+	{
+		return date +"|" + category + "|" + amount + "|";
+	}
+}
+class ExpenseTracker{
+	private ArrayList<Expenses> expenses = new ArrayList<>();
+	
+	void addExpense ( String category ,String date, double amount)
+	{
+		expenses.add(new Expenses ( category ,date, amount));
+		System.out.println(category+ "|" +date + "|"+amount+"|"+"Expense Added!--> ");
+	}
+	
+	void view ()
+	{
+		System.out.println("Here are your Expenses:");
+		for(int i=0;i<expenses.size();i++)
+		{
+			System.out.println(i + " -> " + expenses.get(i));
+		}
+	}
+	void deleteExpense(int index)
+{
+   if(index >= 0 && index < expenses.size())
+   {
+       expenses.remove(index);
+       System.out.println("Expense --> " +expenses.get(index)+ " <--deleted successfully!");
+   }
+   else
+   {
+       System.out.println("Invalid index!");
+   }
+}
+   public void generateTotal()
+{
+	HashMap<String,Double>categorytotal = new HashMap<>(); //hashmap declaration
+	double total=0;
+	for ( int i=0; i<expenses.size();i++)
+	{
+		Expenses e = expenses.get(i); //get the values from array list
+		total += e.amount; //cal total
+		categorytotal.put(e.category ,categorytotal.getOrDefault(e.category, 0.0) + e.amount);
+	}
+	System.out.println("====Total Expenses====");
+	System.out.println("Total Expenditure :" + total);
+	System.out.println();
+	System.out.println("By Category :");
+	
+	ArrayList <String> categories = new ArrayList <>( categorytotal.keySet());
+	for ( int i=0;i<categories.size();i++)
+	{
+		String cat = categories.get(i);
+		System.out.println("Category Total:" + " " +categories.get(i) + "|" + categorytotal.get(cat));
+	}
+	
+}
+   public void generateReport ( String monthYear)
+   {
+   	double monthTotal=0;
+   	HashMap<String,Double> month = new HashMap<>();
+   	for (int i=0;i<expenses.size();i++)
+   	{
+   		Expenses e = expenses.get(i);
+   		if ( e.date.endsWith(monthYear))
+   		{
+   			monthTotal+=e.amount;
+   			month.put(e.date ,month.getOrDefault(e.date, 0.0) + e.amount);
+   		}
+   		
+   	}
+   	System.out.println("====Total Expenses by Month====");
+   	System.out.println("Total Expenditure in the given Month:" + monthTotal);
+   	System.out.println();
+   	System.out.println("By Category :");
+   	
+   	ArrayList <String> months = new ArrayList <>( month.keySet());
+   	for ( int i=0;i<months.size();i++)
+   	{
+   		String date = months.get(i);
+   		System.out.println("Month Total:" +" " + months.get(i)+ "|" +month.get(date));
+   	}
+   	
+   }
+}
+public class Main {
+   public static void main(String[] args) {
+       ExpenseTracker e = new ExpenseTracker();
+       e.addExpense("Food", "12/03/2026", 500);
+       e.addExpense("Shopping", "26/02/2026", 1000);
+       e.addExpense("Food", "15/01/2026", 100);
+       e.addExpense("Fuel", "28/01/2026", 1300);
+       e.addExpense("Grocery", "26/02/2026", 2500);
+       System.out.println();
+       e.view();
+       System.out.println();
+       e.deleteExpense(0);
+       System.out.println();
+       e.view();
+       System.out.println();
+       e.generateTotal();
+       System.out.println();
+       e.generateReport("01/2026");
+   }
+}
